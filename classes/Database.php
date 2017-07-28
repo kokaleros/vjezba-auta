@@ -15,20 +15,14 @@ Class Database{
     public      $db_host = "";
     private     $connection = "";
 
-    function __construct($host, $username, $password, $database)
+    //Connection settings
+    public function open_connection($host, $username, $password, $database)
     {
         $this->db_host = $host;
         $this->db_user = $username;
         $this->db_pass = $password;
         $this->db_name = $database;
 
-        $this->open_connection();
-        $this->select_db();
-    }
-
-    //Connection settings
-    public function open_connection()
-    {
         try
         {
             $this->connection = @mysql_connect($this->db_host, $this->db_user, $this->db_pass);
@@ -47,6 +41,7 @@ Class Database{
             return $e->getMessage();
         }
 
+        $this->select_db();
         return $this->is_connected;
     }
 
