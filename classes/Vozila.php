@@ -54,8 +54,7 @@ Class Vozila extends Database{
             $svaVozila[$i]->oprema = $this->formatirajOpremu($trenutnaOprema);
         }
 
-        var_dump($svaVozila);
-
+        echo json_encode($svaVozila);
     }
 
     private function formatirajOpremu($_oprema){

@@ -438,3 +438,21 @@ there.
   background: url("../images/loading.gif") no-repeat center;
   background-size: contain;
 }
+
+#lista{}
+#lista tr td,
+#lista th:first-child,
+#lista td:first-child{
+  padding-left: 5px !important;
+}
+
+#lista thead tr td{
+  font-weight:bold !important;
+}
+
+#lista tbody tr,
+#lista tbody td{
+    text-align: left;
+    horiz-align: left;
+  vertical-align: top !important;
+}
