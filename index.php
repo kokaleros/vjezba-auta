@@ -86,7 +86,6 @@
         </div>
     </div>
 
-
 </div>
 
 
@@ -198,8 +197,6 @@
         function izbrisiOpremu() {
             $('.oprema').html("");
         }
-
-
 
     });
 
