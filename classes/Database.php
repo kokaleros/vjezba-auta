@@ -102,7 +102,7 @@ Class Database{
         $result_array = array();
 
         $result = mysql_query($sql) or die("Query error: " . mysql_error() );
-        echo mysql_num_rows($result);
+//        echo mysql_num_rows($result);
 
         if( mysql_num_rows($result) > 0)
         {

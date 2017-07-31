@@ -53,45 +53,64 @@
 –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 <div class="container">
 
-<!--    marka vozila -->
-    <div class="row">
-        <div class="u-full-width" style="margin-top: 25%">
-            <select name="markeVozila" disabled>
-                <option>Izaberite marku vozila</option>
-            </select>
-        </div>
-    </div>
+    <div class="row" style="margin-top: 15%">
 
-<!--    Modeli vozila -->
-    <div class="row">
-        <div class="u-full-width">
-                <select name="modeliVozila" style="visibility: hidden;">
-                    <option>Izaberite model vozila</option>
-                </select>
-        </div>
-    </div>
-
-
-    <div class="row unosPodataka" style="visibility: hidden;">
-        <div class="u-full-width">
+        <div class="row one-half column">
+            <!--    marka vozila -->
             <div class="row">
-                <label for="godiste">Godiste:</label>
-                <input type="number" id="godiste" name="godiste" value="" placeholder="2007" min="1920" max="2017">
-
-                <label for="boja">Boja:</label>
-                <input type="text" id="boja" name="boja" value="" placeholder="crna" minlength="3" maxlength="40">
+                <div id="markeVozila" class="u-full-width loading">
+                    <select name="markeVozila" disabled>
+                        <option>Izaberite marku vozila</option>
+                    </select>
+                </div>
             </div>
 
-            <div class="row oprema"></div>
+            <!--    Modeli vozila -->
+            <div class="row">
+                <div id="modeliVozila" class="u-full-width">
+                    <select name="modeliVozila" style="visibility: hidden;">
+                        <option>Izaberite model vozila</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row unosPodataka" style="visibility: hidden;">
+                <div class="u-full-width">
+                    <div class="row">
+                        <label for="godiste">Godiste:</label>
+                        <input type="number" id="godiste" name="godiste" value="" placeholder="2007" min="1920" max="2017">
+
+                        <label for="boja">Boja:</label>
+                        <input type="text" id="boja" name="boja" value="" placeholder="ff000" minlength="6" maxlength="6">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row one-half column">
+            <div class="row unosPodataka oprema"></div>
+        </div>
+
+        <div class="u-full-width">
+            <div id="snimanje" class="row u-full-width" style="visibility: hidden;">
+                <input type="submit" name="snimi" value="Save">
+            </div>
         </div>
     </div>
 
+    <div class="row" style="margin-top: 30px;"></div>
 </div>
 
 
 <script type="text/javascript">
-
     $(document).ready(function () {
+
+        var idMarka;
+        var idModel;
+        var godiste;
+        var boja;
+        var oprema = [];
+
         init();
 
         function init(){
@@ -113,6 +132,7 @@
                     }));
                 }
 
+                $('#markeVozila').removeClass('loading');
                 $('select[name=markeVozila]').prop('disabled', false);
 
             });
@@ -125,10 +145,12 @@
                 return false;
             }
 
-            //stavi da bude disable dok ne pronadje modele!
-            $('select[name=modeliVozila]').prop("disabled", true);
+            idMarka = idMarkeVozila;
 
-            console.log(idMarkeVozila);
+            //stavi da bude disable dok ne pronadje modele!
+            $('#modeliVozila').addClass('loading');
+            $('select[name=modeliVozila]').prop("disabled", true);
+            $('select[name=modeliVozila]').css("visibility", "visible");
 
             //nadji modele tog vozila
             $.post("api.php?option=sviModeliVozila&id=" + idMarkeVozila, function (data, status) {
@@ -157,6 +179,7 @@
 
                 $('select[name=modeliVozila]').prop("disabled", false);
                 $('select[name=modeliVozila]').css("visibility", "visible");
+                $('#modeliVozila').removeClass('loading');
 
             });
 
@@ -169,6 +192,8 @@
                 $('.unosPodataka').css('visibility','hidden');
                 return false;
             }
+
+            idModel = idModelaVozila;
 
             izbrisiOpremu();
             $('.unosPodataka').css('visibility','visible');
@@ -184,18 +209,76 @@
                 var oprema = JSON.parse(data);
 
                 for(var i=0; i < oprema.length;i++){
-
-                    $('.oprema').append($('<input type="checkbox"> ' +oprema[i]['naziv_opreme']+ '<br>', {
+                    var trenutnaOprema = $('<input>', {
                         type:   'checkbox',
                         name:   'oprema',
                         value:  oprema[i]["id"]
-                    }));
+                    });
+
+                    $(".oprema").append(trenutnaOprema);
+                    $(".oprema").append(' '+ oprema[i]['naziv_opreme'] + '<br>');
                 }
             });
+
+            //prikazi snimi dugme
+            $('input[name=snimi]').css('visibility','visible');
         });
 
-        function izbrisiOpremu() {
-            $('.oprema').html("");
+        $('input[name=snimi]').click(function () {
+
+            var unesenaOprema = [];
+
+            $(".oprema input[type=checkbox]:checked").each(function () {
+                unesenaOprema.push(this.value);
+            });
+
+            oprema = unesenaOprema;
+            boja = $("#boja").val();
+            godiste = $("#godiste").val();
+
+            $.post( "api.php?option=snimiVozilo",
+                {
+                    thru_api: 1,
+                    marka: idMarka,
+                    model: idModel,
+                    boja: boja,
+                    godiste: godiste,
+                    oprema: oprema
+                })
+                .done(function( data ) {
+                    if(data == 'success'){
+                        //reset form
+                        resetujFormu();
+
+                        //reload list of models
+
+                    }else{
+                        alert(data);
+                    }
+                });
+        });
+
+
+
+
+        function resetujFormu() {
+            $("select[name=markeVozila]").val($("select[name=markeVozila] option:first").val());
+            $('select[name=modeliVozila]').css("visibility", "hidden");
+            $('select[name=modeliVozila] option').not(':first').remove();
+            $('.unosPodataka').css('visibility','hidden');
+            $('#boja').val('');
+            $('#godiste').val('');
+
+            izbrisiOpremu(true);
+            $('input[name=snimi]').css('visibility','hidden');
+        }
+        
+        function izbrisiOpremu(clear = false) {
+            if (clear == true) {
+                $('.oprema').html();
+            } else {
+                $('.oprema').html("<p>Oprema: </p>");
+            }
         }
 
     });

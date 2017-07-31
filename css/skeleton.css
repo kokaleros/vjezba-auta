@@ -416,3 +416,25 @@ there.
 
 /* Larger than Desktop HD */
 @media (min-width: 1200px) {}
+
+.oprema p{
+  margin: 0;
+  font-weight: 600;
+}
+
+.loading{
+  position: relative;;
+}
+
+.loading:before{
+  width: 20px;
+  height: 20px;
+  left: -30px;
+  position: absolute;
+  display: block;
+  content: ' ';
+  z-index: 99;
+  top: 8px;
+  background: url("../images/loading.gif") no-repeat center;
+  background-size: contain;
+}
