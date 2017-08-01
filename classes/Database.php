@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by Igor Karanovic.
- * User: Igor
- * Date: 9/23/2015
- * Time: 1:52 PM
- */
-
 Class Database{
 
     protected   $db_name = "";
