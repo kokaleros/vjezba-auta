@@ -10,7 +10,6 @@ $(document).ready(function () {
 
     function init(){
         //nadji sva vozila i dodaj ih u select box
-
         $.post( "api.php?option=sveMarkeVozila", function(data,status) {
             if(status != "success"){
                 console.log("Greska: ajax - ");
@@ -61,7 +60,6 @@ $(document).ready(function () {
             //izbrisi sve predhodne elemente iz select-a
             $('select[name=modeliVozila] option').not(':first').remove();
 
-
             //svi podaci
             var modeliVozila = JSON.parse(data);
 
@@ -78,9 +76,7 @@ $(document).ready(function () {
             $('#modeliVozila').removeClass('loading');
 
         });
-
-
-    })
+    });
 
     $("select[name=modeliVozila]").change(function () {
         var idModelaVozila = $(this).val();
@@ -132,7 +128,7 @@ $(document).ready(function () {
         boja = $("#boja").val();
         godiste = $("#godiste").val();
 
-        $.post( "api.php?option=snimiVozilo",
+        $.post( "save.php?option=snimiVozilo",
             {
                 thru_api: 1,
                 marka: idMarka,
@@ -145,10 +141,8 @@ $(document).ready(function () {
                 if(data == 'success'){
                     //reload list of models
                     izlistajSvaAuta();
-
                     //reset form
                     resetujFormu();
-
                 }else{
                     alert(data);
                 }
@@ -156,14 +150,9 @@ $(document).ready(function () {
     });
 
     function izlistajSvaAuta() {
-
         $.post( "api.php?option=svaVozila", function( data ) {
-
             //svi podaci
             var vozila = JSON.parse(data);
-
-            console.log(vozila);
-
             var elements = '';
 
             for(j=0; j < vozila.length; j++){

@@ -1,22 +1,3 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: User
- * Date: 28-Jul-17
- * Time: 14:39
- */
-
-//require 'classes/Database.php';
-//require 'classes/Vozila.php';
-
-//$vozila         = new Vozila();
-//$markeVozila    = $vozila->markeVozila();
-//$modeliVozila   = $vozila->modeliVozila(2);
-
-//var_dump($markeVozila);
-//var_dump($modeliVozila);
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,7 +15,7 @@
 
     <!-- FONT
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
 
     <!-- CSS
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -42,6 +23,8 @@
     <link rel="stylesheet" href="css/skeleton.css">
 
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="js/main.js"> </script>
+
     <!-- Favicon
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <link rel="icon" type="image/png" href="images/favicon.png">
@@ -117,8 +100,6 @@
     </div>
 </div>
 
-
-<script type="text/javascript" src="js/main.js"> </script>
 <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 </body>
